@@ -1,7 +1,7 @@
 {
   "name": "teamprofilegenerator",
   "version": "1.0.0",
-  "description": "by Ashlee Huff",
+  "description": "",
   "type": "module",
   "main": "index.js",
   "directories": {
@@ -105,7 +105,6 @@
     "istanbul-lib-report": "^3.0.0",
     "istanbul-lib-source-maps": "^4.0.1",
     "istanbul-reports": "^3.1.5",
-    "jest": "^29.5.0",
     "jest-changed-files": "^29.5.0",
     "jest-circus": "^29.5.0",
     "jest-cli": "^29.5.0",
@@ -231,16 +230,20 @@
     "yocto-queue": "^0.1.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ash12486/teamProfileGenerator.git"
   },
-  "author": "",
+  "author": "Ashlee Huff",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ash12486/teamProfileGenerator/issues"
   },
-  "homepage": "https://github.com/ash12486/teamProfileGenerator#readme"
+  "homepage": "https://github.com/ash12486/teamProfileGenerator#readme",
+  "devDependencies": {
+    "@babel/preset-env": "^7.21.4",
+    "jest": "^29.5.0"
+  }
 }
