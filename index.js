@@ -1,117 +1,134 @@
-import { prompt } from 'inquirer';
-import fs from 'fs';
+import inquirer from "inquirer";
+const prompt = inquirer.createPromptModule();
 
-import Manager from './lib/Manager.js';
-import Engineer from './lib/Engineer.js';
-import Intern from './lib/Intern.js';
+import fs from "fs";
+import { writeFile } from 'fs';
+
+
+import Manager from "./lib/Manager.js";
+import Engineer from "./lib/Engineer.js";
+import Intern from "./lib/Intern.js";
 
 const teamMembers = [];
+
+startApp();
 
 function startApp() {
   inquirer.prompt([
     {
-      type: 'input',
-      name: 'managerName',
-      message: 'Enter the name of the team manager:'
+      type: "input",
+      name: "managerName",
+      message: "Enter the name of the team manager:",
     },
     {
-      type: 'input',
-      name: 'managerId',
-      message: 'Enter the employee ID of the team manager:'
+      type: "input",
+      name: "managerId",
+      message: "Enter the employee ID of the team manager:",
     },
     {
-      type: 'input',
-      name: 'managerEmail',
-      message: 'Enter the email address of the team manager:'
+      type: "input",
+      name: "managerEmail",
+      message: "Enter the email address of the team manager:",
     },
     {
-      type: 'input',
-      name: 'managerOfficeNumber',
-      message: 'Enter the office number of the team manager:'
-    }
-  ]).then(function(managerData) {
-    const manager = new Manager(managerData.managerName, managerData.managerId, managerData.managerEmail, managerData.managerOfficeNumber);
+      type: "input",
+      name: "managerOfficeNum",
+      message: "Enter the office number of the team manager:",
+    },
+  ]).then(function (managerData) {
+    const manager = new Manager(
+      managerData.managerName,
+      managerData.managerId,
+      managerData.managerEmail,
+      managerData.managerOfficeNum
+    );
     teamMembers.push(manager);
     addTeamMember();
   });
 }
 
 function addEngineer() {
-  prompt([
+  inquirer.prompt([
     {
-      type: 'input',
-      name: 'engineerName',
-      message: 'Enter the name of the engineer:'
+      type: "input",
+      name: "engineerName",
+      message: "Enter the name of the engineer:",
     },
     {
-      type: 'input',
-      name: 'engineerId',
-      message: 'Enter the employee ID of the engineer:'
+      type: "input",
+      name: "engineerId",
+      message: "Enter the employee ID of the engineer:",
     },
     {
-      type: 'input',
-      name: 'engineerEmail',
-      message: 'Enter the email address of the engineer:'
+      type: "input",
+      name: "engineerEmail",
+      message: "Enter the email address of the engineer:",
     },
     {
-      type: 'input',
-      name: 'engineerGithub',
-      message: 'Enter the GitHub username of the engineer:'
-    }
-  ]).then(function(engineerData) {
-    const engineer = new Engineer(engineerData.engineerName, engineerData.engineerId, engineerData.engineerEmail, engineerData.engineerGithub);
+      type: "input",
+      name: "engineerGithub",
+      message: "Enter the GitHub username of the engineer:",
+    },
+  ]).then(function (engineerData) {
+    const engineer = new Engineer(
+      engineerData.engineerName,
+      engineerData.engineerId,
+      engineerData.engineerEmail,
+      engineerData.engineerGithub
+    );
     teamMembers.push(engineer);
     addTeamMember();
   });
 }
 
 function addIntern() {
-  prompt([
+  inquirer.prompt([
     {
-      type: 'input',
-      name: 'internName',
-      message: 'Enter the name of the intern:'
+      type: "input",
+      name: "internName",
+      message: "Enter the name of the intern:",
     },
     {
-      type: 'input',
-      name: 'internId',
-      message: 'Enter the employee ID of the intern:'
+      type: "input",
+      name: "internId",
+      message: "Enter the employee ID of the intern:",
     },
     {
-      type: 'input',
-      name: 'internEmail',
-      message: 'Enter the email address of the intern:'
+      type: "input",
+      name: "internEmail",
+      message: "Enter the email address of the intern:",
     },
     {
-      type: 'input',
-      name: 'internSchool',
-      message: 'Enter the school of the intern:'
-    }
-  ]).then(function(internData) {
-    const intern = new Intern(internData.internName, internData.internId, internData.internEmail, internData.internSchool);
+      type: "input",
+      name: "internSchool",
+      message: "Enter the school of the intern:",
+    },
+  ]).then(function (internData) {
+    const intern = new Intern(
+      internData.internName,
+      internData.internId,
+      internData.internEmail,
+      internData.internSchool
+    );
     teamMembers.push(intern);
     addTeamMember();
   });
 }
 
 function addTeamMember() {
-  prompt([
+  inquirer.prompt([
     {
-      type: 'list',
-      name: 'teamMemberType',
-      message: 'Select the type of team member to add:',
-      choices: [
-        'Engineer',
-        'Intern',
-        'Finish building my team'
-      ]
-    }
-  ]).then(function(choiceData) {
+      type: "list",
+      name: "teamMemberType",
+      message: "Select the type of team member to add:",
+      choices: ["Engineer", "Intern", "Finish building my team"],
+    },
+  ]).then(function (choiceData) {
     switch (choiceData.teamMemberType) {
-      case 'Engineer':
+      case "Engineer":
         addEngineer();
         break;
-      case 'Intern':
+      case "Intern":
         addIntern();
         break;
       default:
@@ -127,9 +144,7 @@ function generateHtml() {
     <head>
       <meta charset="UTF-8">
       <title>Team Roster</title>
-      <style>
-        /* CSS styling goes here */
-      </style>
+      <link rel="stylesheet" href="./src/styles.css">
     </head>
     <body>
       <header>
@@ -142,7 +157,7 @@ function generateHtml() {
             <li>Name: ${teamMembers[0].getName()}</li>
             <li>ID: ${teamMembers[0].getId()}</li>
             <li>Email: <a href="mailto:${teamMembers[0].getEmail()}">${teamMembers[0].getEmail()}</a></li>
-            <li>Office Number: ${teamMembers[0].getOfficeNumber()}</li>
+            <li>Office Number: ${teamMembers[0].getOfficeNum()}</li>
           </ul>
         </section>
         ${generateTeamMembersHtml()}
@@ -151,14 +166,14 @@ function generateHtml() {
   </html>
   `;
 
-  writeFile('team.html', html, function(err) {
+  writeFile("team.html", html, function (err) {
     if (err) throw err;
-    console.log('Team roster has been generated!');
+    console.log("Team roster has been generated!");
   });
 }
 
 function generateTeamMembersHtml() {
-  let html = '';
+  let html = "";
 
   for (let i = 1; i < teamMembers.length; i++) {
     html += `
@@ -167,7 +182,9 @@ function generateTeamMembersHtml() {
       <ul>
         <li>Name: ${teamMembers[i].getName()}</li>
         <li>ID: ${teamMembers[i].getId()}</li>
-        <li>Email: <a href="mailto:${teamMembers[i].getEmail()}">${teamMembers[i].getEmail()}</a></li>
+        <li>Email: <a href="mailto:${teamMembers[i].getEmail()}">${teamMembers[
+      i
+    ].getEmail()}</a></li>
         ${generateTeamMemberSpecificInfoHtml(teamMembers[i])}
       </ul>
     </section>
@@ -179,11 +196,11 @@ function generateTeamMembersHtml() {
 
 function generateTeamMemberSpecificInfoHtml(teamMember) {
   switch (teamMember.getRole()) {
-    case 'Engineer':
+    case "Engineer":
       return `<li>GitHub: <a href="https://github.com/${teamMember.getGithub()}" target="_blank">${teamMember.getGithub()}</a></li>`;
-    case 'Intern':
+    case "Intern":
       return `<li>School: ${teamMember.getSchool()}</li>`;
     default:
-      return '';
+      return "";
   }
 }
